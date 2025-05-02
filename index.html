@@ -166,9 +166,10 @@
     /* Home Section */
     #home {
       min-height: 100vh;
-      background-image: url('pics/trufeo.png');
+      background-image: url('pics/lambo.jpg');
       background-size: cover;
       background-position: center;
+      width: 100vw;
     }
 
     /* Photography Section */
@@ -304,7 +305,7 @@
     }
 
     .enlarged-image {
-      transform: scale(3);
+      transform: scale(1.5); /* Reduced size */
       max-width: 80%;
       max-height: 80%;
       box-shadow: 0 10px 20px rgba(255, 255, 250, 0.5);
@@ -488,13 +489,13 @@
       <h2>Photography Portfolio</h2>
       <div class="gallery">
         <div class="gallery-item">
-          <img src="pics/skyline.JPG">
-        </div>
-        <div class="gallery-item">
           <img src="pics/g80.jpg">
         </div>
         <div class="gallery-item">
-          <img src="pics/lambo.jpg">
+          <img src="pics/trufeo.png">
+        </div>
+        <div class="gallery-item">
+          <img src="pics/skyline.JPG">
         </div>
       </div>
     </section>
@@ -519,38 +520,38 @@
     <section id="archive">
       <h2 class="archive-title">Archive</h2>
       <div class="archive-grid">
-        <!-- 10 sections on main page, 3 filled, 7 empty -->
+        <!-- 10 sections on main page -->
         <img src="pics/180sx.JPG"> <!-- Archive Image 1 -->
         <img src="pics/812.jpg"> <!-- Archive Image 2 -->
         <img src="pics/812too.jpg"> <!-- Archive Image 3 -->
-        <img src="pics/batman.jpg"> <!-- Archive Image 4 (empty) -->
-        <img src="pics/gt3rs.jpg"> <!-- Archive Image 5 (empty) -->
-        <img src="pics/m3.jpg"> <!-- Archive Image 6 (empty) -->
-        <img src="pics/m4.jpg"> <!-- Archive Image 7 (empty) -->
-        <img src="pics/rswheel.jpg"> <!-- Archive Image 8 (empty) -->
-        <img src="pics/skyline.JPG"> <!-- Archive Image 9 (empty) -->
-        <img src="pics/trufeo.png"> <!-- Archive Image 10 (empty) -->
+        <img src="pics/batman.jpg"> <!-- Archive Image 4 -->
+        <img src="pics/gt3rs.jpg"> <!-- Archive Image 5 -->
+        <img src="pics/m3.jpg"> <!-- Archive Image 6 -->
+        <img src="pics/m4.jpg"> <!-- Archive Image 7 -->
+        <img src="pics/rswheel.jpg"> <!-- Archive Image 8 -->
+        <img src="pics/skyline.JPG"> <!-- Archive Image 9 -->
+        <img src="pics/trufeo.png"> <!-- Archive Image 10 -->
         <!-- Additional slots for expanded view (hidden initially) -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 11 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 12 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 13 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 14 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 15 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 16 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 17 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 18 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 19 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 20 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 21 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 22 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 23 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 24 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 25 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 26 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 27 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 28 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 29 -->
-        <img src="pics/" style="display: none;"> <!-- Archive Image 30 -->
+        <img src="pics/180sx.JPG" style="display: none;"> <!-- Archive Image 11 -->
+        <img src="pics/812.jpg" style="display: none;"> <!-- Archive Image 12 -->
+        <img src="pics/812too.jpg" style="display: none;"> <!-- Archive Image 13 -->
+        <img src="pics/batman.jpg" style="display: none;"> <!-- Archive Image 14 -->
+        <img src="pics/gt3rs.jpg" style="display: none;"> <!-- Archive Image 15 -->
+        <img src="pics/m3.jpg" style="display: none;"> <!-- Archive Image 16 -->
+        <img src="pics/m4.jpg" style="display: none;"> <!-- Archive Image 17 -->
+        <img src="pics/rswheel.jpg" style="display: none;"> <!-- Archive Image 18 -->
+        <img src="pics/skyline.JPG" style="display: none;"> <!-- Archive Image 19 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 20 -->
+        <img src="pics/180sx.JPG" style="display: none;"> <!-- Archive Image 21 -->
+        <img src="pics/812.jpg" style="display: none;"> <!-- Archive Image 22 -->
+        <img src="pics/812too.jpg" style="display: none;"> <!-- Archive Image 23 -->
+        <img src="pics/batman.jpg" style="display: none;"> <!-- Archive Image 24 -->
+        <img src="pics/gt3rs.jpg" style="display: none;"> <!-- Archive Image 25 -->
+        <img src="pics/m3.jpg" style="display: none;"> <!-- Archive Image 26 -->
+        <img src="pics/m4.jpg" style="display: none;"> <!-- Archive Image 27 -->
+        <img src="pics/rswheel.jpg" style="display: none;"> <!-- Archive Image 28 -->
+        <img src="pics/skyline.JPG" style="display: none;"> <!-- Archive Image 29 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 30 -->
       </div>
       <div class="archive-circles">
         <div class="archive-circle"></div>
@@ -655,7 +656,7 @@
         const newPosition = startPosition + distance * easeInOutQuad;
 
         window.scrollTo(0, newPosition);
-        main.style.animation = 'motionBlur 1.8s ease'; // Sync blur with scroll
+        main.style.animation = 'motionBlur 2s ease'; // Sync blur with scroll
 
         if (timeElapsed < duration) {
           requestAnimationFrame(animation);
@@ -683,7 +684,7 @@
             archiveImages[i].style.display = 'none';
           }
         }
-        smoothScroll(targetSection, 2000); // 1.7-second duration
+        smoothScroll(targetSection, 2000); // 2-second duration
       });
     });
 
@@ -804,6 +805,7 @@
 
     // Archive circle click event
     archiveCircles.addEventListener('click', function(e) {
+      // Apply slide animation only to main content, excluding nav
       main.style.transform = 'translateX(-100%)';
       main.style.opacity = '0';
 
@@ -818,7 +820,7 @@
         archiveImages[i].style.display = 'block';
       }
 
-      // Prevent nav from sliding
+      // Ensure nav stays in place
       nav.style.transform = 'none';
       nav.style.opacity = '1';
     });

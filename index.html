@@ -49,12 +49,9 @@
       100% { filter: blur(0px); }
     }
 
-    @keyframes slideFadeOut {
-      to { transform: translateX(-100%); opacity: 0; }
-    }
-
-    @keyframes gridExpand {
-      to { grid-template-columns: repeat(6, 200px); grid-template-rows: repeat(5, 200px); }
+    @keyframes fadeInView {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* Side Navigation */
@@ -69,7 +66,7 @@
       justify-content: center;
       align-items: center;
       z-index: 100;
-      background: rgba(0, 0, 0, 0.8);
+      padding: 20px 0; /* Add space to nav bar */
     }
 
     nav ul {
@@ -110,7 +107,6 @@
     /* Main Content */
     main {
       margin-left: 150px;
-      transition: transform 1s ease, opacity 1s ease;
     }
 
     section {
@@ -170,6 +166,7 @@
       background-size: cover;
       background-position: center;
       width: 100vw;
+      margin-left: 0; /* Ensure it goes under the nav bar */
     }
 
     /* Photography Section */
@@ -231,15 +228,20 @@
       justify-content: center;
       position: relative;
       z-index: 1;
-      transition: grid-template-columns 1s ease, grid-template-rows 1s ease;
     }
 
-    .archive-grid.expanded {
-      grid-template-columns: repeat(6, 200px);
+    .archive-grid-expanded {
+      display: grid;
+      grid-template-columns: repeat(5, 200px); /* Reduced to 5 columns */
       grid-template-rows: repeat(5, 200px);
+      gap: 15px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      animation: fadeInView 1s ease-in forwards;
     }
 
-    .archive-grid img {
+    .archive-grid img, .archive-grid-expanded img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -249,11 +251,16 @@
       cursor: pointer;
     }
 
-    .archive-grid img:hover {
+    .archive-grid img:hover, .archive-grid-expanded img:hover {
       transform: scale(1.1);
       box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
       animation: motionBlur 0.8s ease;
       z-index: 2;
+    }
+
+    /* Archive Title */
+    .archive-title {
+      margin-bottom: 40px; /* Add space below the title */
     }
 
     /* Archive Circles */
@@ -305,7 +312,7 @@
     }
 
     .enlarged-image {
-      transform: scale(1.5); /* Reduced size */
+      transform: scale(1.5);
       max-width: 80%;
       max-height: 80%;
       box-shadow: 0 10px 20px rgba(255, 255, 250, 0.5);
@@ -404,6 +411,11 @@
       animation: motionBlur 0.8s ease;
     }
 
+    /* Expanded Archive Section */
+    #archive-expanded {
+      display: none; /* Hidden by default */
+    }
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .about-content {
@@ -419,7 +431,7 @@
         grid-template-rows: auto;
       }
 
-      .archive-grid.expanded {
+      .archive-grid-expanded {
         grid-template-columns: repeat(4, 150px);
         grid-template-rows: repeat(4, 150px);
       }
@@ -438,7 +450,7 @@
         grid-template-rows: auto;
       }
 
-      .archive-grid.expanded {
+      .archive-grid-expanded {
         grid-template-columns: repeat(3, 150px);
         grid-template-rows: repeat(4, 150px);
       }
@@ -449,6 +461,10 @@
 
       main {
         margin-left: 100px;
+      }
+
+      #home {
+        margin-left: 0;
       }
 
       nav a {
@@ -472,7 +488,7 @@
       <li><a href="#home" class="active">Home</a></li>
       <li><a href="#photography">Photography</a></li>
       <li><a href="#videography">Videography</a></li>
-      <li><a href="#archive">Archive</a></li>
+      <li><a href="#archive" id="archive-link">Archive</a></li>
       <li><a href="#about">About Me</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -531,32 +547,43 @@
         <img src="pics/rswheel.jpg"> <!-- Archive Image 8 -->
         <img src="pics/skyline.JPG"> <!-- Archive Image 9 -->
         <img src="pics/trufeo.png"> <!-- Archive Image 10 -->
-        <!-- Additional slots for expanded view (hidden initially) -->
-        <img src="pics/180sx.JPG" style="display: none;"> <!-- Archive Image 11 -->
-        <img src="pics/812.jpg" style="display: none;"> <!-- Archive Image 12 -->
-        <img src="pics/812too.jpg" style="display: none;"> <!-- Archive Image 13 -->
-        <img src="pics/batman.jpg" style="display: none;"> <!-- Archive Image 14 -->
-        <img src="pics/gt3rs.jpg" style="display: none;"> <!-- Archive Image 15 -->
-        <img src="pics/m3.jpg" style="display: none;"> <!-- Archive Image 16 -->
-        <img src="pics/m4.jpg" style="display: none;"> <!-- Archive Image 17 -->
-        <img src="pics/rswheel.jpg" style="display: none;"> <!-- Archive Image 18 -->
-        <img src="pics/skyline.JPG" style="display: none;"> <!-- Archive Image 19 -->
-        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 20 -->
-        <img src="pics/180sx.JPG" style="display: none;"> <!-- Archive Image 21 -->
-        <img src="pics/812.jpg" style="display: none;"> <!-- Archive Image 22 -->
-        <img src="pics/812too.jpg" style="display: none;"> <!-- Archive Image 23 -->
-        <img src="pics/batman.jpg" style="display: none;"> <!-- Archive Image 24 -->
-        <img src="pics/gt3rs.jpg" style="display: none;"> <!-- Archive Image 25 -->
-        <img src="pics/m3.jpg" style="display: none;"> <!-- Archive Image 26 -->
-        <img src="pics/m4.jpg" style="display: none;"> <!-- Archive Image 27 -->
-        <img src="pics/rswheel.jpg" style="display: none;"> <!-- Archive Image 28 -->
-        <img src="pics/skyline.JPG" style="display: none;"> <!-- Archive Image 29 -->
-        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 30 -->
       </div>
       <div class="archive-circles">
         <div class="archive-circle"></div>
         <div class="archive-circle"></div>
         <div class="archive-circle"></div>
+      </div>
+    </section>
+
+    <!-- Expanded Archive Section -->
+    <section id="archive-expanded">
+      <h2 class="archive-title">Archive Expanded</h2>
+      <div class="archive-grid-expanded">
+        <img src="pics/180sx.JPG"> <!-- Archive Image 1 -->
+        <img src="pics/812.jpg"> <!-- Archive Image 2 -->
+        <img src="pics/812too.jpg"> <!-- Archive Image 3 -->
+        <img src="pics/batman.jpg"> <!-- Archive Image 4 -->
+        <img src="pics/gt3rs.jpg"> <!-- Archive Image 5 -->
+        <img src="pics/m3.jpg"> <!-- Archive Image 6 -->
+        <img src="pics/m4.jpg"> <!-- Archive Image 7 -->
+        <img src="pics/rswheel.jpg"> <!-- Archive Image 8 -->
+        <img src="pics/skyline.JPG"> <!-- Archive Image 9 -->
+        <img src="pics/trufeo.png"> <!-- Archive Image 10 -->
+        <img src="pics/180sx.JPG"> <!-- Archive Image 11 -->
+        <img src="pics/812.jpg"> <!-- Archive Image 12 -->
+        <img src="pics/812too.jpg"> <!-- Archive Image 13 -->
+        <img src="pics/batman.jpg"> <!-- Archive Image 14 -->
+        <img src="pics/gt3rs.jpg"> <!-- Archive Image 15 -->
+        <img src="pics/m3.jpg"> <!-- Archive Image 16 -->
+        <img src="pics/m4.jpg"> <!-- Archive Image 17 -->
+        <img src="pics/rswheel.jpg"> <!-- Archive Image 18 -->
+        <img src="pics/skyline.JPG"> <!-- Archive Image 19 -->
+        <img src="pics/trufeo.png"> <!-- Archive Image 20 -->
+        <img src="pics/180sx.JPG"> <!-- Archive Image 21 -->
+        <img src="pics/812.jpg"> <!-- Archive Image 22 -->
+        <img src="pics/812too.jpg"> <!-- Archive Image 23 -->
+        <img src="pics/batman.jpg"> <!-- Archive Image 24 -->
+        <img src="pics/gt3rs.jpg"> <!-- Archive Image 25 -->
       </div>
     </section>
 
@@ -596,12 +623,12 @@
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
     const headers = document.querySelectorAll('h1, h2');
-    const archiveTitle = document.querySelector('.archive-title');
-    const archiveGrid = document.querySelector('.archive-grid');
     const archiveCircles = document.querySelector('.archive-circles');
+    const archiveExpanded = document.getElementById('archive-expanded');
     const main = document.querySelector('main');
-    const archiveImages = document.querySelectorAll('.archive-grid img');
+    const archiveImages = document.querySelectorAll('.archive-grid img, .archive-grid-expanded img');
     const nav = document.querySelector('nav');
+    const archiveLink = document.getElementById('archive-link');
 
     const observerOptions = {
       root: null,
@@ -673,19 +700,24 @@
         e.preventDefault();
         const targetId = this.getAttribute('href').slice(1);
         const targetSection = document.getElementById(targetId);
-        if (archiveGrid.classList.contains('expanded')) {
-          // Reset to main view if expanded
-          main.style.transform = 'translateX(0)';
-          main.style.opacity = '1';
-          archiveTitle.style.position = 'static';
-          archiveTitle.style.transform = 'scale(1)';
-          archiveGrid.classList.remove('expanded');
-          for (let i = 10; i < archiveImages.length; i++) {
-            archiveImages[i].style.display = 'none';
-          }
+        if (targetId === 'archive' && archiveExpanded.style.display === 'block') {
+          archiveExpanded.style.display = 'none';
         }
         smoothScroll(targetSection, 2000); // 2-second duration
       });
+    });
+
+    // Archive circles click event to toggle expanded view
+    archiveCircles.addEventListener('click', function(e) {
+      if (archiveExpanded.style.display === 'none' || archiveExpanded.style.display === '') {
+        archiveExpanded.style.display = 'block';
+        const expandedSection = document.getElementById('archive-expanded');
+        smoothScroll(expandedSection, 2000);
+      } else {
+        archiveExpanded.style.display = 'none';
+        const archiveSection = document.getElementById('archive');
+        smoothScroll(archiveSection, 2000);
+      }
     });
 
     // Lightbox for Photography
@@ -715,7 +747,7 @@
     const enlargedImage = document.querySelector('.enlarged-image');
     const closeOverlayBtn = document.querySelector('.close-overlay');
 
-    document.querySelectorAll('.archive-grid img').forEach(img => {
+    document.querySelectorAll('.archive-grid img, .archive-grid-expanded img').forEach(img => {
       img.addEventListener('click', function() {
         if (img.src) { // Only open overlay if the image has a src
           enlargedImage.src = img.src;
@@ -801,28 +833,6 @@
           }
         });
       });
-    });
-
-    // Archive circle click event
-    archiveCircles.addEventListener('click', function(e) {
-      // Apply slide animation only to main content, excluding nav
-      main.style.transform = 'translateX(-100%)';
-      main.style.opacity = '0';
-
-      archiveTitle.style.position = 'fixed';
-      archiveTitle.style.top = '20px';
-      archiveTitle.style.left = '50%';
-      archiveTitle.style.transform = 'translateX(-50%) scale(1.5)';
-      archiveTitle.style.zIndex = '50';
-
-      archiveGrid.classList.add('expanded');
-      for (let i = 10; i < archiveImages.length; i++) {
-        archiveImages[i].style.display = 'block';
-      }
-
-      // Ensure nav stays in place
-      nav.style.transform = 'none';
-      nav.style.opacity = '1';
     });
   </script>
 </body>

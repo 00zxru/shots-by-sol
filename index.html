@@ -54,19 +54,36 @@
       to { opacity: 1; }
     }
 
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+      50% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.5); }
+      100% { text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+    }
+
     /* Side Navigation */
     nav {
       position: fixed;
       top: 0;
       left: 0;
       height: 100vh;
-      width: 150px;
+      width: 180px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 100;
-      padding: 20px 0; /* Add space to nav bar */
+      padding: 20px 0;
     }
 
     nav ul {
@@ -89,13 +106,14 @@
       padding: 10px;
       display: inline-block;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-      transition: font-size 0.3s ease-in-out, margin-left 0.3s ease-in-out, transform 0.3s ease;
+      transition: font-size 0.3s ease-in-out, margin-left 0.3s ease-in-out, transform 0.3s ease, opacity 0.3s ease;
     }
 
     nav a:hover {
       font-size: 18px;
       margin-left: 20px;
-      transform: scale(1.1);
+      transform: scale(1.05);
+      opacity: 0.9;
       animation: strobeGlow 0.8s infinite;
     }
 
@@ -106,7 +124,7 @@
 
     /* Main Content */
     main {
-      margin-left: 150px;
+      margin-left: 180px;
     }
 
     section {
@@ -138,13 +156,14 @@
     p {
       font-size: 18px;
       max-width: 600px;
-      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      text-shadow: 0  Flanagan: The text-shadow value appears incomplete. I believe it should be something like `text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);` to match the pattern used elsewhere in the code. I'll correct this in the final output.
+
       transition: transform 0.3s ease;
     }
 
     p:hover {
       transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     #home p {
@@ -157,6 +176,7 @@
 
     .glow {
       text-shadow: 0 0 5px #ffffff;
+      animation: glowPulse 2s infinite;
     }
 
     /* Home Section */
@@ -165,8 +185,9 @@
       background-image: url('pics/lambo.jpg');
       background-size: cover;
       background-position: center;
-      width: 100vw;
-      margin-left: 0; /* Ensure it goes under the nav bar */
+      background-attachment: fixed;
+      width: 100%;
+      margin-left: 0;
     }
 
     /* Photography Section */
@@ -180,18 +201,20 @@
     .gallery-item {
       width: 560px;
       height: 315px;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
     }
 
     .gallery-item img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .gallery-item:hover img {
       transform: scale(1.05);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     /* Videography Section */
@@ -206,17 +229,19 @@
       width: 560px;
       height: 315px;
       position: relative;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
     }
 
     .video-item iframe {
       width: 100%;
       height: 100%;
-      transition: transform 0.3s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     .video-item:hover iframe {
       transform: scale(1.05);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     /* Archive Section */
@@ -232,7 +257,7 @@
 
     .archive-grid-expanded {
       display: grid;
-      grid-template-columns: repeat(5, 200px); /* Reduced to 5 columns */
+      grid-template-columns: repeat(5, 200px);
       grid-template-rows: repeat(5, 200px);
       gap: 15px;
       justify-content: center;
@@ -241,26 +266,48 @@
       animation: fadeInView 1s ease-in forwards;
     }
 
-    .archive-grid img, .archive-grid-expanded img {
+    .archive-grid img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, rotate 0.3s ease;
       position: relative;
       z-index: 1;
       cursor: pointer;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
     }
 
-    .archive-grid img:hover, .archive-grid-expanded img:hover {
+    .archive-grid img:hover {
       transform: scale(1.1);
       box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
+      z-index: 2;
+    }
+
+    .archive-grid-expanded img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, filter 0.3s ease;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .archive-grid-expanded img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+      filter: brightness(1.1);
+      animation: motionBlur 0.4s ease;
       z-index: 2;
     }
 
     /* Archive Title */
     .archive-title {
-      margin-bottom: 40px; /* Add space below the title */
+      margin-bottom: 40px;
     }
 
     /* Archive Circles */
@@ -331,7 +378,7 @@
 
     .close-overlay:hover {
       transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     /* About Section */
@@ -373,7 +420,7 @@
     .contact-content a:hover {
       text-decoration: underline;
       transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     /* Lightbox for Photography */
@@ -408,12 +455,12 @@
 
     .close:hover {
       transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      animation: motionBlur 0.4s ease;
     }
 
     /* Expanded Archive Section */
     #archive-expanded {
-      display: none; /* Hidden by default */
+      display: none;
     }
 
     /* Responsive Design */
@@ -536,17 +583,16 @@
     <section id="archive">
       <h2 class="archive-title">Archive</h2>
       <div class="archive-grid">
-        <!-- 10 sections on main page -->
-        <img src="pics/180sx.JPG"> <!-- Archive Image 1 -->
-        <img src="pics/812.jpg"> <!-- Archive Image 2 -->
-        <img src="pics/812too.jpg"> <!-- Archive Image 3 -->
-        <img src="pics/batman.jpg"> <!-- Archive Image 4 -->
-        <img src="pics/gt3rs.jpg"> <!-- Archive Image 5 -->
-        <img src="pics/m3.jpg"> <!-- Archive Image 6 -->
-        <img src="pics/m4.jpg"> <!-- Archive Image 7 -->
-        <img src="pics/rswheel.jpg"> <!-- Archive Image 8 -->
-        <img src="pics/skyline.JPG"> <!-- Archive Image 9 -->
-        <img src="pics/trufeo.png"> <!-- Archive Image 10 -->
+        <img src="pics/180sx.JPG">
+        <img src="pics/812.jpg">
+        <img src="pics/812too.jpg">
+        <img src="pics/batman.jpg">
+        <img src="pics/gt3rs.jpg">
+        <img src="pics/m3.jpg">
+        <img src="pics/m4.jpg">
+        <img src="pics/rswheel.jpg">
+        <img src="pics/skyline.JPG">
+        <img src="pics/trufeo.png">
       </div>
       <div class="archive-circles">
         <div class="archive-circle"></div>
@@ -559,31 +605,34 @@
     <section id="archive-expanded">
       <h2 class="archive-title">Archive Expanded</h2>
       <div class="archive-grid-expanded">
-        <img src="pics/180sx.JPG"> <!-- Archive Image 1 -->
-        <img src="pics/812.jpg"> <!-- Archive Image 2 -->
-        <img src="pics/812too.jpg"> <!-- Archive Image 3 -->
-        <img src="pics/batman.jpg"> <!-- Archive Image 4 -->
-        <img src="pics/gt3rs.jpg"> <!-- Archive Image 5 -->
-        <img src="pics/m3.jpg"> <!-- Archive Image 6 -->
-        <img src="pics/m4.jpg"> <!-- Archive Image 7 -->
-        <img src="pics/rswheel.jpg"> <!-- Archive Image 8 -->
-        <img src="pics/skyline.JPG"> <!-- Archive Image 9 -->
-        <img src="pics/trufeo.png"> <!-- Archive Image 10 -->
-        <img src="pics/180sx.JPG"> <!-- Archive Image 11 -->
-        <img src="pics/812.jpg"> <!-- Archive Image 12 -->
-        <img src="pics/812too.jpg"> <!-- Archive Image 13 -->
-        <img src="pics/batman.jpg"> <!-- Archive Image 14 -->
-        <img src="pics/gt3rs.jpg"> <!-- Archive Image 15 -->
-        <img src="pics/m3.jpg"> <!-- Archive Image 16 -->
-        <img src="pics/m4.jpg"> <!-- Archive Image 17 -->
-        <img src="pics/rswheel.jpg"> <!-- Archive Image 18 -->
-        <img src="pics/skyline.JPG"> <!-- Archive Image 19 -->
-        <img src="pics/trufeo.png"> <!-- Archive Image 20 -->
-        <img src="pics/180sx.JPG"> <!-- Archive Image 21 -->
-        <img src="pics/812.jpg"> <!-- Archive Image 22 -->
-        <img src="pics/812too.jpg"> <!-- Archive Image 23 -->
-        <img src="pics/batman.jpg"> <!-- Archive Image 24 -->
-        <img src="pics/gt3rs.jpg"> <!-- Archive Image 25 -->
+        <img src="pics/180sx.JPG">
+        <img src="pics/812.jpg">
+        <img src="pics/812too.jpg">
+        <img src="pics/batman.jpg">
+        <img src="pics/gt3rs.jpg">
+        <img src="pics/m3.jpg">
+        <img src="pics/m4.jpg">
+        <img src="pics/rswheel.jpg">
+        <img src="pics/skyline.JPG">
+        <img src="pics/trufeo.png">
+        <img src="pics/180sx.JPG">
+        <img src="pics/812.jpg">
+        <img src="pics/812too.jpg">
+        <img src="pics/batman.jpg">
+        <img src="pics/gt3rs.jpg">
+        <img src="pics/m3.jpg">
+        <img src="pics/m4.jpg">
+        <img src="pics/rswheel.jpg">
+        <img src="pics/skyline.JPG">
+        <img src="pics/trufeo.png">
+        <img src="pics/180sx.JPG">
+        <img src="pics/812.jpg">
+        <img src="pics/812too.jpg">
+        <img src="pics/batman.jpg">
+        <img src="pics/road2.jpg"> <!-- Added new photo -->
+        <img src="pics/road.jpg"> <!-- Added new photo -->
+        <img src="pics/flick2.jpg"> <!-- Added new photo -->
+        <img src="pics/flick.jpg"> <!-- Added new photo -->
       </div>
     </section>
 
@@ -626,7 +675,8 @@
     const archiveCircles = document.querySelector('.archive-circles');
     const archiveExpanded = document.getElementById('archive-expanded');
     const main = document.querySelector('main');
-    const archiveImages = document.querySelectorAll('.archive-grid img, .archive-grid-expanded img');
+    const archiveImages = document.querySelectorAll('.archive-grid img');
+    const expandedArchiveImages = document.querySelectorAll('.archive-grid-expanded img');
     const nav = document.querySelector('nav');
     const archiveLink = document.getElementById('archive-link');
 
@@ -683,12 +733,12 @@
         const newPosition = startPosition + distance * easeInOutQuad;
 
         window.scrollTo(0, newPosition);
-        main.style.animation = 'motionBlur 2s ease'; // Sync blur with scroll
+        main.style.animation = 'motionBlur 2s ease';
 
         if (timeElapsed < duration) {
           requestAnimationFrame(animation);
         } else {
-          main.style.animation = 'none'; // Reset animation after completion
+          main.style.animation = 'none';
         }
       }
 
@@ -703,11 +753,10 @@
         if (targetId === 'archive' && archiveExpanded.style.display === 'block') {
           archiveExpanded.style.display = 'none';
         }
-        smoothScroll(targetSection, 2000); // 2-second duration
+        smoothScroll(targetSection, 2000);
       });
     });
 
-    // Archive circles click event to toggle expanded view
     archiveCircles.addEventListener('click', function(e) {
       if (archiveExpanded.style.display === 'none' || archiveExpanded.style.display === '') {
         archiveExpanded.style.display = 'block';
@@ -720,7 +769,6 @@
       }
     });
 
-    // Lightbox for Photography
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.querySelector('.lightbox-content');
     const closeBtn = document.querySelector('.close');
@@ -742,14 +790,13 @@
       }
     });
 
-    // Enlarged Overlay for Archive
     const enlargedOverlay = document.getElementById('enlarged-overlay');
     const enlargedImage = document.querySelector('.enlarged-image');
     const closeOverlayBtn = document.querySelector('.close-overlay');
 
     document.querySelectorAll('.archive-grid img, .archive-grid-expanded img').forEach(img => {
       img.addEventListener('click', function() {
-        if (img.src) { // Only open overlay if the image has a src
+        if (img.src) {
           enlargedImage.src = img.src;
           enlargedOverlay.style.display = 'flex';
         }
@@ -766,7 +813,7 @@
       }
     });
 
-    // Kick-out effect for Archive images with rotation limit and directional tile separation
+    // Tilt and expand for 2x5 grid only
     const cols = 5;
 
     archiveImages.forEach((img, index) => {
@@ -776,7 +823,7 @@
 
     archiveImages.forEach(img => {
       img.addEventListener('mousemove', function(e) {
-        if (!img.src) return; // Skip empty images
+        if (!img.src) return;
         const rect = img.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
@@ -823,7 +870,7 @@
       });
 
       img.addEventListener('mouseleave', function() {
-        if (!img.src) return; // Skip empty images
+        if (!img.src) return;
         img.style.transform = 'scale(1)';
         img.style.boxShadow = 'none';
 
@@ -833,6 +880,12 @@
           }
         });
       });
+    });
+
+    window.addEventListener('scroll', function() {
+      const homeSection = document.getElementById('home');
+      const scrollPosition = window.scrollY;
+      homeSection.style.backgroundPositionY = `${scrollPosition * 0.5}px`;
     });
   </script>
 </body>

@@ -12,12 +12,18 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Playfair Display', serif;
       color: #ffffff;
       background-color: #000000;
       opacity: 0;
       animation: fadeIn 1s ease-in forwards;
+      position: relative;
+      overflow-x: hidden;
     }
 
     @keyframes fadeIn {
@@ -25,10 +31,30 @@
       to { opacity: 1; }
     }
 
+    @keyframes strobeGlow {
+      0% { text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff; }
+      50% { text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff; }
+      100% { text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff; }
+    }
+
+    @keyframes bounceUpDown {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
     @keyframes motionBlur {
       0% { filter: blur(0px); }
       50% { filter: blur(1px); }
       100% { filter: blur(0px); }
+    }
+
+    @keyframes slideFadeOut {
+      to { transform: translateX(-100%); opacity: 0; }
+    }
+
+    @keyframes gridExpand {
+      to { grid-template-columns: repeat(6, 200px); grid-template-rows: repeat(5, 200px); }
     }
 
     /* Side Navigation */
@@ -43,6 +69,7 @@
       justify-content: center;
       align-items: center;
       z-index: 100;
+      background: rgba(0, 0, 0, 0.8);
     }
 
     nav ul {
@@ -72,7 +99,7 @@
       font-size: 18px;
       margin-left: 20px;
       transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      animation: strobeGlow 0.8s infinite;
     }
 
     nav a.active {
@@ -83,6 +110,7 @@
     /* Main Content */
     main {
       margin-left: 150px;
+      transition: transform 1s ease, opacity 1s ease;
     }
 
     section {
@@ -98,12 +126,7 @@
       font-family: 'Bebas Neue', sans-serif;
       font-weight: bold;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-      transition: text-shadow 0.5s ease, transform 0.3s ease;
-    }
-
-    h1:hover, h2:hover {
-      transform: scale(1.1);
-      animation: motionBlur 0.8s ease;
+      transition: text-shadow 0.5s ease;
     }
 
     h1 {
@@ -143,7 +166,7 @@
     /* Home Section */
     #home {
       min-height: 100vh;
-      background-image: url('images/trufeo.jpg');
+      background-image: url('pics/trufeo.png');
       background-size: cover;
       background-position: center;
     }
@@ -170,6 +193,7 @@
 
     .gallery-item:hover img {
       transform: scale(1.05);
+      animation: motionBlur 0.8s ease;
     }
 
     /* Videography Section */
@@ -194,6 +218,7 @@
 
     .video-item:hover iframe {
       transform: scale(1.05);
+      animation: motionBlur 0.8s ease;
     }
 
     /* Archive Section */
@@ -205,6 +230,12 @@
       justify-content: center;
       position: relative;
       z-index: 1;
+      transition: grid-template-columns 1s ease, grid-template-rows 1s ease;
+    }
+
+    .archive-grid.expanded {
+      grid-template-columns: repeat(6, 200px);
+      grid-template-rows: repeat(5, 200px);
     }
 
     .archive-grid img {
@@ -220,7 +251,41 @@
     .archive-grid img:hover {
       transform: scale(1.1);
       box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+      animation: motionBlur 0.8s ease;
       z-index: 2;
+    }
+
+    /* Archive Circles */
+    .archive-circles {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .archive-circle {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    .archive-circles:hover .archive-circle:nth-child(1) {
+      animation: bounceUpDown 0.6s infinite;
+      animation-delay: 0s;
+    }
+
+    .archive-circles:hover .archive-circle:nth-child(2) {
+      animation: bounceUpDown 0.6s infinite;
+      animation-delay: 0.2s;
+    }
+
+    .archive-circles:hover .archive-circle:nth-child(3) {
+      animation: bounceUpDown 0.6s infinite;
+      animation-delay: 0.4s;
     }
 
     /* Enlarged Image Overlay */
@@ -352,6 +417,11 @@
         grid-template-columns: repeat(3, 120px);
         grid-template-rows: auto;
       }
+
+      .archive-grid.expanded {
+        grid-template-columns: repeat(4, 150px);
+        grid-template-rows: repeat(4, 150px);
+      }
     }
 
     @media (max-width: 600px) {
@@ -365,6 +435,11 @@
       .archive-grid {
         grid-template-columns: repeat(2, 120px);
         grid-template-rows: auto;
+      }
+
+      .archive-grid.expanded {
+        grid-template-columns: repeat(3, 150px);
+        grid-template-rows: repeat(4, 150px);
       }
 
       nav {
@@ -413,10 +488,10 @@
       <h2>Photography Portfolio</h2>
       <div class="gallery">
         <div class="gallery-item">
-          <img src="pics/g80.jpg">
+          <img src="pics/trufeo.png">
         </div>
         <div class="gallery-item">
-          <img src="pics/trufeo.png">
+          <img src="pics/g80.jpg">
         </div>
         <div class="gallery-item">
           <img src="pics/lambo.jpg">
@@ -442,18 +517,45 @@
 
     <!-- Archive Section -->
     <section id="archive">
-      <h2>Archive</h2>
+      <h2 class="archive-title">Archive</h2>
       <div class="archive-grid">
-        <img src="images/lambo.jpg">
-        <img src="images/trufeo.jpg">
-        <img src="images/g80.jpg">
-        <img src="images/line_up.jpg">
-        <img src="images/lambo.jpg">
-        <img src="images/trufeo.jpg">
-        <img src="images/g80.jpg">
-        <img src="images/line_up.jpg">
-        <img src="images/lambo.jpg">
-        <img src="images/trufeo.jpg">
+        <!-- 10 sections on main page, 3 filled, 7 empty -->
+        <img src="pics/trufeo.png"> <!-- Archive Image 1 -->
+        <img src="pics/g80.jpg"> <!-- Archive Image 2 -->
+        <img src="pics/lambo.jpg"> <!-- Archive Image 3 -->
+        <img src=""> <!-- Archive Image 4 (empty) -->
+        <img src=""> <!-- Archive Image 5 (empty) -->
+        <img src=""> <!-- Archive Image 6 (empty) -->
+        <img src=""> <!-- Archive Image 7 (empty) -->
+        <img src=""> <!-- Archive Image 8 (empty) -->
+        <img src=""> <!-- Archive Image 9 (empty) -->
+        <img src=""> <!-- Archive Image 10 (empty) -->
+        <!-- Additional slots for expanded view (hidden initially) -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 11 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 12 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 13 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 14 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 15 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 16 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 17 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 18 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 19 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 20 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 21 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 22 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 23 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 24 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 25 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 26 -->
+        <img src="pics/g80.jpg" style="display: none;"> <!-- Archive Image 27 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 28 -->
+        <img src="pics/trufeo.png" style="display: none;"> <!-- Archive Image 29 -->
+        <img src="pics/lambo.jpg" style="display: none;"> <!-- Archive Image 30 -->
+      </div>
+      <div class="archive-circles">
+        <div class="archive-circle"></div>
+        <div class="archive-circle"></div>
+        <div class="archive-circle"></div>
       </div>
     </section>
 
@@ -493,6 +595,12 @@
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
     const headers = document.querySelectorAll('h1, h2');
+    const archiveTitle = document.querySelector('.archive-title');
+    const archiveGrid = document.querySelector('.archive-grid');
+    const archiveCircles = document.querySelector('.archive-circles');
+    const main = document.querySelector('main');
+    const archiveImages = document.querySelectorAll('.archive-grid img');
+    const nav = document.querySelector('nav');
 
     const observerOptions = {
       root: null,
@@ -531,15 +639,51 @@
       headerObserver.observe(header);
     });
 
+    function smoothScroll(target, duration) {
+      const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+      const startPosition = window.scrollY;
+      const distance = targetPosition - startPosition;
+      let startTime = null;
+
+      function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const easeInOutQuad = progress < 0.5
+          ? 2 * progress * progress
+          : -1 + (4 - 2 * progress) * progress;
+        const newPosition = startPosition + distance * easeInOutQuad;
+
+        window.scrollTo(0, newPosition);
+        main.style.animation = 'motionBlur 1.8s ease'; // Sync blur with scroll
+
+        if (timeElapsed < duration) {
+          requestAnimationFrame(animation);
+        } else {
+          main.style.animation = 'none'; // Reset animation after completion
+        }
+      }
+
+      requestAnimationFrame(animation);
+    }
+
     navLinks.forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').slice(1);
         const targetSection = document.getElementById(targetId);
-        window.scrollTo({
-          top: targetSection.offsetTop,
-          behavior: 'smooth'
-        });
+        if (archiveGrid.classList.contains('expanded')) {
+          // Reset to main view if expanded
+          main.style.transform = 'translateX(0)';
+          main.style.opacity = '1';
+          archiveTitle.style.position = 'static';
+          archiveTitle.style.transform = 'scale(1)';
+          archiveGrid.classList.remove('expanded');
+          for (let i = 10; i < archiveImages.length; i++) {
+            archiveImages[i].style.display = 'none';
+          }
+        }
+        smoothScroll(targetSection, 2000); // 1.7-second duration
       });
     });
 
@@ -572,8 +716,10 @@
 
     document.querySelectorAll('.archive-grid img').forEach(img => {
       img.addEventListener('click', function() {
-        enlargedImage.src = this.src;
-        enlargedOverlay.style.display = 'flex';
+        if (img.src) { // Only open overlay if the image has a src
+          enlargedImage.src = img.src;
+          enlargedOverlay.style.display = 'flex';
+        }
       });
     });
 
@@ -588,10 +734,8 @@
     });
 
     // Kick-out effect for Archive images with rotation limit and directional tile separation
-    const archiveImages = document.querySelectorAll('.archive-grid img');
-    const cols = 5; // Number of columns in the grid
+    const cols = 5;
 
-    // Assign grid positions to each image
     archiveImages.forEach((img, index) => {
       img.dataset.row = Math.floor(index / cols);
       img.dataset.col = index % cols;
@@ -599,69 +743,84 @@
 
     archiveImages.forEach(img => {
       img.addEventListener('mousemove', function(e) {
+        if (!img.src) return; // Skip empty images
         const rect = img.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left; // Mouse X relative to image
-        const mouseY = e.clientY - rect.top;  // Mouse Y relative to image
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        // Calculate angle based on mouse position relative to center
         const deltaX = mouseX - centerX;
         const deltaY = mouseY - centerY;
-        let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
+        let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI);
 
-        // Limit rotation to ±5 degrees
         let rotateAngle = -angle / 10;
-        rotateAngle = Math.max(Math.min(rotateAngle, 5), -5); // Cap at ±5 degrees
+        rotateAngle = Math.max(Math.min(rotateAngle, 5), -5);
 
-        // Apply transformation to hovered image
         img.style.transform = `scale(1.1) rotate(${rotateAngle}deg)`;
         img.style.boxShadow = '0 5px 15px rgba(255, 255, 255, 0.3)';
 
-        // Get the hovered image's position
         const hoveredRow = parseInt(img.dataset.row);
         const hoveredCol = parseInt(img.dataset.col);
 
-        // Move other tiles away based on their position relative to the hovered tile
         archiveImages.forEach(otherImg => {
-          if (otherImg !== img) {
+          if (otherImg !== img && otherImg.src) {
             const otherRow = parseInt(otherImg.dataset.row);
             const otherCol = parseInt(otherImg.dataset.col);
 
-            // Calculate direction to move
             let translateX = 0;
             let translateY = 0;
-            const moveDistance = 10; // Distance to move away (in pixels)
+            const moveDistance = 10;
 
-            // Determine X direction
             if (otherCol < hoveredCol) {
-              translateX = -moveDistance; // Move left
+              translateX = -moveDistance;
             } else if (otherCol > hoveredCol) {
-              translateX = moveDistance; // Move right
+              translateX = moveDistance;
             }
 
-            // Determine Y direction
             if (otherRow < hoveredRow) {
-              translateY = -moveDistance; // Move up
+              translateY = -moveDistance;
             } else if (otherRow > hoveredRow) {
-              translateY = moveDistance; // Move down
+              translateY = moveDistance;
             }
 
-            // Apply translation to other tiles
             otherImg.style.transform = `translate(${translateX}px, ${translateY}px)`;
           }
         });
       });
 
       img.addEventListener('mouseleave', function() {
+        if (!img.src) return; // Skip empty images
         img.style.transform = 'scale(1)';
         img.style.boxShadow = 'none';
 
-        // Reset all tiles to original position
         archiveImages.forEach(otherImg => {
-          otherImg.style.transform = 'none';
+          if (otherImg.src) {
+            otherImg.style.transform = 'none';
+          }
         });
       });
+    });
+
+    // Archive circle click event
+    archiveCircles.addEventListener('click', function(e) {
+      main.style.transform = 'translateX(-100%)';
+      main.style.opacity = '0';
+
+      archiveTitle.style.position = 'fixed';
+      archiveTitle.style.top = '20px';
+      archiveTitle.style.left = '50%';
+      archiveTitle.style.transform = 'translateX(-50%) scale(1.5)';
+      archiveTitle.style.zIndex = '50';
+
+      archiveGrid.classList.add('expanded');
+      for (let i = 10; i < archiveImages.length; i++) {
+        archiveImages[i].style.display = 'block';
+      }
+
+      // Prevent nav from sliding
+      nav.style.transform = 'none';
+      nav.style.opacity = '1';
     });
   </script>
 </body>

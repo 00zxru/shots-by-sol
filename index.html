@@ -72,7 +72,7 @@
       font-size: 18px;
       margin-left: 20px;
       transform: scale(1.1);
-      animation: motionBlur 1s ease;
+      animation: motionBlur 0.8s ease;
     }
 
     nav a.active {
@@ -103,7 +103,7 @@
 
     h1:hover, h2:hover {
       transform: scale(1.1);
-      animation: motionBlur 1s ease;
+      animation: motionBlur 0.8s ease;
     }
 
     h1 {
@@ -125,7 +125,7 @@
 
     p:hover {
       transform: scale(1.1);
-      animation: motionBlur 1s ease;
+      animation: motionBlur 0.8s ease;
     }
 
     #home p {
@@ -197,21 +197,68 @@
     }
 
     /* Archive Section */
-    .masonry {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 150px);
+      grid-template-rows: repeat(2, 150px);
+      gap: 15px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
     }
 
-    .masonry img {
-      width: 560px;
-      height: auto;
+    .archive-grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, rotate 0.3s ease;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    .archive-grid img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+      z-index: 2;
+    }
+
+    /* Enlarged Image Overlay */
+    .enlarged-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .enlarged-image {
+      transform: scale(3);
+      max-width: 80%;
+      max-height: 80%;
+      box-shadow: 0 10px 20px rgba(255, 255, 250, 0.5);
+    }
+
+    .close-overlay {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: #ffffff;
+      font-size: 40px;
+      cursor: pointer;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       transition: transform 0.3s ease;
     }
 
-    .masonry img:hover {
-      transform: scale(1.05);
+    .close-overlay:hover {
+      transform: scale(1.1);
+      animation: motionBlur 0.8s ease;
     }
 
     /* About Section */
@@ -253,7 +300,7 @@
     .contact-content a:hover {
       text-decoration: underline;
       transform: scale(1.1);
-      animation: motionBlur 1s ease;
+      animation: motionBlur 0.8s ease;
     }
 
     /* Lightbox for Photography */
@@ -288,7 +335,7 @@
 
     .close:hover {
       transform: scale(1.1);
-      animation: motionBlur 1s ease;
+      animation: motionBlur 0.8s ease;
     }
 
     /* Responsive Design */
@@ -300,14 +347,24 @@
       .about-content p {
         width: 100%;
       }
+
+      .archive-grid {
+        grid-template-columns: repeat(3, 120px);
+        grid-template-rows: auto;
+      }
     }
 
     @media (max-width: 600px) {
-      .gallery-item, .video-item, .masonry img {
+      .gallery-item, .video-item {
         width: 100%;
         max-width: 560px;
         height: auto;
         aspect-ratio: 16 / 9;
+      }
+
+      .archive-grid {
+        grid-template-columns: repeat(2, 120px);
+        grid-template-rows: auto;
       }
 
       nav {
@@ -356,13 +413,13 @@
       <h2>Photography Portfolio</h2>
       <div class="gallery">
         <div class="gallery-item">
-          <img src="pics/lambo.jpg">
+          <img src="pics/g80.jpg">
         </div>
         <div class="gallery-item">
           <img src="pics/trufeo.png">
         </div>
         <div class="gallery-item">
-          <img src="pics/g80.jpg">
+          <img src="pics/lambo.jpg">
         </div>
       </div>
     </section>
@@ -386,7 +443,15 @@
     <!-- Archive Section -->
     <section id="archive">
       <h2>Archive</h2>
-      <div class="masonry">
+      <div class="archive-grid">
+        <img src="images/lambo.jpg">
+        <img src="images/trufeo.jpg">
+        <img src="images/g80.jpg">
+        <img src="images/line_up.jpg">
+        <img src="images/lambo.jpg">
+        <img src="images/trufeo.jpg">
+        <img src="images/g80.jpg">
+        <img src="images/line_up.jpg">
         <img src="images/lambo.jpg">
         <img src="images/trufeo.jpg">
       </div>
@@ -416,6 +481,12 @@
   <div id="lightbox" class="lightbox">
     <span class="close">×</span>
     <img class="lightbox-content" src="">
+  </div>
+
+  <!-- Enlarged Image Overlay for Archive -->
+  <div id="enlarged-overlay" class="enlarged-overlay">
+    <span class="close-overlay">×</span>
+    <img class="enlarged-image" src="">
   </div>
 
   <script>
@@ -472,6 +543,7 @@
       });
     });
 
+    // Lightbox for Photography
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.querySelector('.lightbox-content');
     const closeBtn = document.querySelector('.close');
@@ -491,6 +563,105 @@
       if (e.target === lightbox) {
         lightbox.style.display = 'none';
       }
+    });
+
+    // Enlarged Overlay for Archive
+    const enlargedOverlay = document.getElementById('enlarged-overlay');
+    const enlargedImage = document.querySelector('.enlarged-image');
+    const closeOverlayBtn = document.querySelector('.close-overlay');
+
+    document.querySelectorAll('.archive-grid img').forEach(img => {
+      img.addEventListener('click', function() {
+        enlargedImage.src = this.src;
+        enlargedOverlay.style.display = 'flex';
+      });
+    });
+
+    closeOverlayBtn.addEventListener('click', function() {
+      enlargedOverlay.style.display = 'none';
+    });
+
+    enlargedOverlay.addEventListener('click', function(e) {
+      if (e.target === enlargedOverlay) {
+        enlargedOverlay.style.display = 'none';
+      }
+    });
+
+    // Kick-out effect for Archive images with rotation limit and directional tile separation
+    const archiveImages = document.querySelectorAll('.archive-grid img');
+    const cols = 5; // Number of columns in the grid
+
+    // Assign grid positions to each image
+    archiveImages.forEach((img, index) => {
+      img.dataset.row = Math.floor(index / cols);
+      img.dataset.col = index % cols;
+    });
+
+    archiveImages.forEach(img => {
+      img.addEventListener('mousemove', function(e) {
+        const rect = img.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left; // Mouse X relative to image
+        const mouseY = e.clientY - rect.top;  // Mouse Y relative to image
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        // Calculate angle based on mouse position relative to center
+        const deltaX = mouseX - centerX;
+        const deltaY = mouseY - centerY;
+        let angle = Math.atan2(deltaY, deltaX) * (180 / Math.PI); // Convert to degrees
+
+        // Limit rotation to ±5 degrees
+        let rotateAngle = -angle / 10;
+        rotateAngle = Math.max(Math.min(rotateAngle, 5), -5); // Cap at ±5 degrees
+
+        // Apply transformation to hovered image
+        img.style.transform = `scale(1.1) rotate(${rotateAngle}deg)`;
+        img.style.boxShadow = '0 5px 15px rgba(255, 255, 255, 0.3)';
+
+        // Get the hovered image's position
+        const hoveredRow = parseInt(img.dataset.row);
+        const hoveredCol = parseInt(img.dataset.col);
+
+        // Move other tiles away based on their position relative to the hovered tile
+        archiveImages.forEach(otherImg => {
+          if (otherImg !== img) {
+            const otherRow = parseInt(otherImg.dataset.row);
+            const otherCol = parseInt(otherImg.dataset.col);
+
+            // Calculate direction to move
+            let translateX = 0;
+            let translateY = 0;
+            const moveDistance = 10; // Distance to move away (in pixels)
+
+            // Determine X direction
+            if (otherCol < hoveredCol) {
+              translateX = -moveDistance; // Move left
+            } else if (otherCol > hoveredCol) {
+              translateX = moveDistance; // Move right
+            }
+
+            // Determine Y direction
+            if (otherRow < hoveredRow) {
+              translateY = -moveDistance; // Move up
+            } else if (otherRow > hoveredRow) {
+              translateY = moveDistance; // Move down
+            }
+
+            // Apply translation to other tiles
+            otherImg.style.transform = `translate(${translateX}px, ${translateY}px)`;
+          }
+        });
+      });
+
+      img.addEventListener('mouseleave', function() {
+        img.style.transform = 'scale(1)';
+        img.style.boxShadow = 'none';
+
+        // Reset all tiles to original position
+        archiveImages.forEach(otherImg => {
+          otherImg.style.transform = 'none';
+        });
+      });
     });
   </script>
 </body>

@@ -192,15 +192,14 @@
     /* Photography Section */
     .gallery {
       display: flex;
-      flex-wrap: wrap; /* Enables two-column layout */
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       gap: 20px;
-      max-width: 1320px; /* Fits two 640px images + gap */
     }
 
     .gallery-item {
-      width: 640px; /* Increased width */
-      height: 360px; /* Increased height, maintaining 16:9 aspect ratio */
+      width: 560px;
+      height: 315px;
       opacity: 0;
       animation: fadeInUp 0.6s ease-out forwards;
     }
@@ -240,6 +239,38 @@
     }
 
     .video-item:hover iframe {
+      transform: scale(1.05);
+      animation: motionBlur 0.4s ease;
+    }
+
+    /* VIDS+ Section */
+    #vids-plus {
+      display: none;
+      margin-left: 180px;
+    }
+
+    .vids-plus-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1320px;
+    }
+
+    .vids-plus-item {
+      width: 640px;
+      height: 360px;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .vids-plus-item iframe {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .vids-plus-item:hover iframe {
       transform: scale(1.05);
       animation: motionBlur 0.4s ease;
     }
@@ -440,7 +471,7 @@
     /* Expanded Archive Section */
     #archive-expanded {
       display: none;
-      margin-left: 180px; /* Matches main margin-left to avoid overlap with nav */
+      margin-left: 180px;
     }
 
     /* Responsive Design */
@@ -461,6 +492,13 @@
       .archive-grid-expanded {
         grid-template-columns: repeat(4, 150px);
         grid-template-rows: repeat(4, 150px);
+      }
+
+      .vids-plus-item {
+        width: 100%;
+        max-width: 560px;
+        height: auto;
+        aspect-ratio: 16 / 9;
       }
     }
 
@@ -491,7 +529,11 @@
       }
 
       #archive-expanded {
-        margin-left: 100px; /* Matches main margin-left on smaller screens */
+        margin-left: 100px;
+      }
+
+      #vids-plus {
+        margin-left: 100px;
       }
 
       #home {
@@ -518,7 +560,7 @@
     <ul>
       <li><a href="#home" class="active">Home</a></li>
       <li><a href="#photography">Photography</a></li>
-      <li><a href="#videography">Videography</a></li>
+      <li><a href="#videography" id="videography-link">Videography</a></li>
       <li><a href="#archive" id="archive-link">Archive</a></li>
       <li><a href="#about">About Me</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -563,8 +605,20 @@
         <div class="video-item">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/665HZvcEPng?si=PIjAcHma4NdEsot8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <div class="video-item">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/tqXPGNVcESs?si=45OXIqFU77zlU-Ft" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="archive-circles">
+        <div class="archive-circle"></div>
+        <div class="archive-circle"></div>
+        <div class="archive-circle"></div>
+      </div>
+    </section>
+
+    <!-- VIDS+ Section -->
+    <section id="vids-plus">
+      <h2 class="archive-title">VIDS+</h2>
+      <div class="vids-plus-grid">
+        <div class="vids-plus-item">
+          <iframe width="640" height="360" src="https://www.youtube.com/embed/tqXPGNVcESs?si=45OXIqFU77zlU-Ft" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
       </div>
     </section>
@@ -663,10 +717,12 @@
     const headers = document.querySelectorAll('h1, h2');
     const archiveCircles = document.querySelector('.archive-circles');
     const archiveExpanded = document.getElementById('archive-expanded');
+    const vidsPlus = document.getElementById('vids-plus');
     const main = document.querySelector('main');
     const nav = document.querySelector('nav');
     const archiveLink = document.getElementById('archive-link');
-    const gridCols = 5; // Both grids have 5 columns
+    const videographyLink = document.getElementById('videography-link');
+    const gridCols = 5;
 
     const observerOptions = {
       root: null,
@@ -755,6 +811,19 @@
       }
     });
 
+    const videographyCircles = document.querySelectorAll('#videography .archive-circles')[0];
+    videographyCircles.addEventListener('click', function(e) {
+      if (vidsPlus.style.display === 'none' || vidsPlus.style.display === '') {
+        vidsPlus.style.display = 'block';
+        const vidsPlusSection = document.getElementById('vids-plus');
+        smoothScroll(vidsPlusSection, 2000);
+      } else {
+        vidsPlus.style.display = 'none';
+        const videographySection = document.getElementById('videography');
+        smoothScroll(videographySection, 2000);
+      }
+    });
+
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.querySelector('.lightbox-content');
     const closeBtn = document.querySelector('.close');
@@ -810,7 +879,7 @@
 
       images.forEach(img => {
         img.addEventListener('mouseover', function() {
-          console.log('Hover on', this.src); // Debugging
+          console.log('Hover on', this.src);
           if (!this.src) return;
 
           const hoveredRow = parseInt(this.dataset.row);
@@ -837,7 +906,7 @@
         });
 
         img.addEventListener('mouseout', function() {
-          console.log('Hover off', this.src); // Debugging
+          console.log('Hover off', this.src);
           images.forEach(otherImg => {
             if (otherImg.src) {
               otherImg.style.transform = 'none';
